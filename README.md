@@ -17,7 +17,7 @@ A coding agent for VS Code powered by GPT-5.4-Nano. Read, write, debug, and refa
 
 ## Usage
 
-1. Install the extension
+1. Install the extension from VS Code — Nexus Code Agent
 2. Open the Nexus Code panel from the activity bar
 3. Enter your app key to unlock
 4. Open a folder in VS Code
