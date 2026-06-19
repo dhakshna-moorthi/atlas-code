@@ -1,8 +1,9 @@
 {
   "name": "nexus-code-agent",
   "displayName": "nexus-code",
-  "description": "Nexus Code - A coding agent",
+  "description": "An AI-powered coding agent for VS Code. Read, write, debug, and refactor your codebase using natural language — powered by GPT-5.4-Nano.",
   "license": "MIT",
+  "icon": "icon.png",
   "version": "0.0.1",
   "publisher": "dhakshnamoorthi",
   "repository": {
@@ -28,8 +29,8 @@
       "activitybar": [
         {
           "id": "nexus-sidebar",
-          "title": "Nexus",
-          "icon": "$(robot)"
+          "title": "Nexus Code",
+          "icon": "media/logo.svg"
         }
       ]
     },
@@ -38,7 +39,8 @@
         {
           "type": "webview",
           "id": "nexus.chatView",
-          "name": "Nexus Agent"
+          "name": "Nexus Agent",
+          "icon": "media/logo.svg"
         }
       ]
     }

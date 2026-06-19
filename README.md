@@ -1,6 +1,6 @@
 # Nexus Code
 
-A coding agent for VS Code powered by GPT-4o. Read, write, debug, and refactor your code using natural language.
+A coding agent for VS Code powered by GPT-5.4-Nano. Read, write, debug, and refactor your code using natural language.
 
 ## Features
 

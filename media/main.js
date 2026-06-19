@@ -10,6 +10,7 @@ function submitKey() {
   const key = keyInput.value.trim();
   if (!key) return;
   keySubmit.disabled = true;
+  keySubmit.textContent = 'Unlocking...';
   keyError.textContent = '';
   vscode.postMessage({ type: 'validateKey', key });
 }
@@ -240,6 +241,7 @@ function setWaiting(on) {
   waiting = on;
   sendBtn.disabled = on;
   input.disabled = on;
+  clearBtn.disabled = on;
 }
 
 function send() {
@@ -271,6 +273,7 @@ window.addEventListener('message', e => {
     } else {
       keyError.textContent = 'Incorrect app key.';
       keySubmit.disabled = false;
+      keySubmit.textContent = 'Unlock';
       keyInput.select();
     }
     return;
