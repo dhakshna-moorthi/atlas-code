@@ -60,13 +60,7 @@ export class NexusViewProvider implements vscode.WebviewViewProvider {
                 history.push({ role: 'user', content: message.text });
 
                 const agentPath = path.join(this._extensionUri.fsPath, 'agent', 'agent.py');
-                const isWindows = process.platform === 'win32';
-                const pythonPath = path.join(
-                    this._extensionUri.fsPath,
-                    'venv',
-                    isWindows ? 'Scripts' : 'bin',
-                    isWindows ? 'python.exe' : 'python'
-                );
+                const pythonPath = 'python';
 
                 try {
                     // agentic loop
