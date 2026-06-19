@@ -1,0 +1,17 @@
+dist
+.vscode-test/
+*.vsix
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+
+# VS Code extension build output
+out/
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

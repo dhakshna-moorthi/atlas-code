@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{CSP_SOURCE}}; script-src {{CSP_SOURCE}};">
+<title>Nexus</title>
+<link rel="stylesheet" href="{{STYLE_URI}}">
+</head>
+<body>
+
+<div id="login-screen">
+  <div id="login-box">
+    <div class="login-logo">
+      <svg width="40" height="40" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="11" y1="4.5" x2="11" y2="13" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="4.5" x2="3.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="4.5" x2="18.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="13" x2="3.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="13" x2="18.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="11" cy="4.5" r="2" fill="#3bbfb0"/>
+        <circle cx="11" cy="13" r="2" fill="#3bbfb0"/>
+        <circle cx="3.5" cy="19" r="2" fill="#3bbfb0"/>
+        <circle cx="18.5" cy="19" r="2" fill="#3bbfb0"/>
+      </svg>
+    </div>
+    <div class="login-title">NEXUS <span>CODE</span></div>
+    <div class="login-subtitle">Enter your app key to continue</div>
+    <div id="login-form">
+      <input type="password" id="key-input" placeholder="App key" autocomplete="off" spellcheck="false">
+      <button id="key-submit">Unlock</button>
+    </div>
+    <div id="key-error"></div>
+  </div>
+</div>
+
+<div id="header">
+  <div id="logo-area">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="11" y1="4.5" x2="11" y2="13" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="11" y1="4.5" x2="3.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="11" y1="4.5" x2="18.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="11" y1="13" x2="3.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="11" y1="13" x2="18.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+      <circle cx="11" cy="4.5" r="2" fill="#3bbfb0"/>
+      <circle cx="11" cy="13" r="2" fill="#3bbfb0"/>
+      <circle cx="3.5" cy="19" r="2" fill="#3bbfb0"/>
+      <circle cx="18.5" cy="19" r="2" fill="#3bbfb0"/>
+    </svg>
+    <span class="wordmark">NEXUS <span>CODE</span></span>
+  </div>
+  <button id="clear-btn">clear</button>
+</div>
+
+<div id="chat">
+  <div id="empty">
+    <div class="big-logo">
+      <svg width="64" height="64" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="11" y1="4.5" x2="11" y2="11" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="4.5" x2="3.5" y2="17.5" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="4.5" x2="18.5" y2="17.5" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="11" x2="3.5" y2="17.5" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="11" y1="11" x2="18.5" y2="17.5" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="11" cy="4.5" r="2" fill="#3bbfb0"/>
+        <circle cx="11" cy="11" r="2" fill="#3bbfb0"/>
+        <circle cx="3.5" cy="17.5" r="2" fill="#3bbfb0"/>
+        <circle cx="18.5" cy="17.5" r="2" fill="#3bbfb0"/>
+      </svg>
+    </div>
+    <div class="empty-title">What do you want to build?</div>
+    <div class="tagline">Read, write, debug, and refactor<br>your code with Nexus.</div>
+  </div>
+</div>
+
+<div id="input-area">
+  <div id="context-bar"></div>
+  <div id="input-row">
+    <textarea id="input" rows="1" placeholder="Ask anything..."></textarea>
+    <button id="send-btn" title="Send">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.5 13V2M7.5 2L2.5 7M7.5 2L12.5 7" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+  <div id="bottom-row">
+    <span id="model-label">GPT-5.4-Nano</span>
+    <span id="hint">Enter to send · Shift+Enter for new line</span>
+  </div>
+</div>
+
+<script src="{{SCRIPT_URI}}"></script>
+</body>
+</html>
