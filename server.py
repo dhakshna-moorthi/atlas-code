@@ -1,8 +1,7 @@
 import os
 import json
-import uuid
 import uvicorn
-from fastapi import FastAPI, HTTPException, Header
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
@@ -21,8 +20,6 @@ app.add_middleware(
 )
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-active_tokens = set()
 
 SYSTEM_PROMPT = """You are Atlas, an expert coding agent embedded in VS Code. You help developers read, write, debug, and refactor code across any language or framework.
 
@@ -302,9 +299,6 @@ If unsure, ask the user to confirm before calling this tool.""",
 ]
 
 
-class LoginRequest(BaseModel):
-    password: str
-
 class ToolResult(BaseModel):
     tool_call_id: str
     result: str
@@ -317,30 +311,9 @@ class ChatRequest(BaseModel):
     messages: Optional[List[Dict[str, Any]]] = None
 
 
-# ── auth helper ──
-def verify_token(authorization: str = Header(None)):
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Missing token")
-    token = authorization.replace("Bearer ", "")
-    if token not in active_tokens:
-        raise HTTPException(status_code=401, detail="Invalid token")
-    return token
-
-
 # ── endpoints ──
-@app.post("/login")
-def login(body: LoginRequest):
-    if (body.password == os.getenv("PASSWORD")):
-        token = str(uuid.uuid4())
-        active_tokens.add(token)
-        return {"status": "success", "token": token}
-    raise HTTPException(status_code=401, detail="Invalid credentials")
-
-
 @app.post("/chat")
-def chat(body: ChatRequest, authorization: str = Header(None)):
-    verify_token(authorization)
-
+def chat(body: ChatRequest):
     if body.messages and body.tool_result:
         # continuing loop with tool result
         messages = [dict(m) for m in body.messages]
