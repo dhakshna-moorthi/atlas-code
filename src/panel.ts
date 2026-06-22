@@ -3,11 +3,10 @@ import * as cp from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const SERVER_URL = "https://nexus-code-server.onrender.com";
+const SERVER_URL = "https://atlas-code-server.onrender.com";
 
-export class NexusViewProvider implements vscode.WebviewViewProvider {
-    public static readonly viewType = 'nexus.chatView';
-    private _token: string | null = null;
+export class AtlasViewProvider implements vscode.WebviewViewProvider {
+    public static readonly viewType = 'atlas.chatView';
 
     constructor(private readonly _extensionUri: vscode.Uri) {}
 
@@ -25,37 +24,8 @@ export class NexusViewProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.onDidReceiveMessage(async message => {
 
-            // ── login ──
-            if (message.type === 'validateKey') {
-                try {
-                    const response = await fetch(`${SERVER_URL}/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            username: 'admin',
-                            password: message.key
-                        })
-                    });
-                    const data = await response.json() as { status: string; token?: string };
-                    if (data.status === 'success' && data.token) {
-                        this._token = data.token;
-                        webviewView.webview.postMessage({ type: 'keyResult', valid: true });
-                    } else {
-                        webviewView.webview.postMessage({ type: 'keyResult', valid: false });
-                    }
-                } catch {
-                    webviewView.webview.postMessage({ type: 'keyResult', valid: false });
-                }
-                return;
-            }
-
             // ── chat ──
             if (message.type === 'userMessage') {
-                if (!this._token) {
-                    webviewView.webview.postMessage({ type: 'agentMessage', text: 'Not authenticated.' });
-                    return;
-                }
-
                 const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
                 history.push({ role: 'user', content: message.text });
 
@@ -75,8 +45,7 @@ export class NexusViewProvider implements vscode.WebviewViewProvider {
                         const response = await fetch(`${SERVER_URL}/chat`, {
                             method: 'POST',
                             headers: {
-                                'Content-Type': 'application/json',
-                                'authorization': `Bearer ${this._token}`
+                                'Content-Type': 'application/json'
                             },
                             body: JSON.stringify(requestBody)
                         });

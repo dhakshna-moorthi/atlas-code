@@ -1,15 +1,21 @@
 {
-  "name": "nexus-code-agent",
-  "displayName": "Nexus Code Agent",
-  "description": "An AI-powered coding agent for VS Code. Read, write, debug, and refactor your codebase using natural language — powered by GPT-5.4-Nano.",
+  "name": "atlas-code",
+  "displayName": "Atlas Code",
+  "description": "An AI-powered coding agent for VS Code. Read, write, debug, and refactor your codebase using natural language.",
   "license": "MIT",
   "icon": "icon.png",
   "version": "0.0.5",
   "publisher": "dhakshnamoorthi",
+  "homepage": "https://github.com/dhakshna-moorthi/atlas-code",
+  "bugs": {
+    "url": "https://github.com/dhakshna-moorthi/atlas-code/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dhakshna-moorthi/nexus-code"
+    "url": "https://github.com/dhakshna-moorthi/atlas-code"
   },
+  "extensionKind": ["ui"],
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.125.0"
   },
@@ -21,25 +27,25 @@
   "contributes": {
     "commands": [
       {
-        "command": "nexus.start",
-        "title": "Nexus: Open Agent"
+        "command": "atlas.start",
+        "title": "Atlas: Open Agent"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "nexus-sidebar",
-          "title": "Nexus Code",
+          "id": "atlas-sidebar",
+          "title": "Atlas Code",
           "icon": "media/logo.svg"
         }
       ]
     },
     "views": {
-      "nexus-sidebar": [
+      "atlas-sidebar": [
         {
           "type": "webview",
-          "id": "nexus.chatView",
-          "name": "Nexus Agent",
+          "id": "atlas.chatView",
+          "name": "Atlas Agent",
           "icon": "media/logo.svg"
         }
       ]

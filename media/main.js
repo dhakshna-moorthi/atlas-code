@@ -1,25 +1,5 @@
 const vscode = acquireVsCodeApi();
 
-// ── login ──
-const loginScreen = document.getElementById('login-screen');
-const keyInput = document.getElementById('key-input');
-const keySubmit = document.getElementById('key-submit');
-const keyError = document.getElementById('key-error');
-
-function submitKey() {
-  const key = keyInput.value.trim();
-  if (!key) return;
-  keySubmit.disabled = true;
-  keySubmit.textContent = 'Unlocking...';
-  keyError.textContent = '';
-  vscode.postMessage({ type: 'validateKey', key });
-}
-
-keySubmit.addEventListener('click', submitKey);
-keyInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') { e.preventDefault(); submitKey(); }
-});
-
 // ── main UI ──
 const chat = document.getElementById('chat');
 const input = document.getElementById('input');
@@ -31,7 +11,7 @@ let attachedFiles = [];
 let empty = document.getElementById('empty');
 let waiting = false;
 
-const NEXUS_ICON = `<svg width="13" height="13" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+const ATLAS_ICON = `<svg width="13" height="13" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
   <line x1="11" y1="4.5" x2="11" y2="13" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
   <line x1="11" y1="4.5" x2="3.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
   <line x1="11" y1="4.5" x2="18.5" y2="19" stroke="#3bbfb0" stroke-width="1.3" stroke-linecap="round"/>
@@ -140,7 +120,7 @@ function makeEmptyState() {
       </svg>
     </div>
     <div class="empty-title">What do you want to build?</div>
-    <div class="tagline">Read, write, debug, and refactor<br>your code with Nexus.</div>`;
+    <div class="tagline">Read, write, debug, and refactor<br>your code with Atlas.</div>`;
   return e;
 }
 
@@ -184,8 +164,8 @@ function appendMessage(role, text, files = []) {
   } else {
     msg.innerHTML = `
       <div class="msg-header">
-        ${NEXUS_ICON}
-        <span class="msg-label">Nexus</span>
+        ${ATLAS_ICON}
+        <span class="msg-label">Atlas</span>
       </div>
       <div class="msg-content">${renderMarkdown(text)}</div>`;
   }
@@ -201,8 +181,8 @@ function showThinking() {
   t.id = 'thinking';
   t.innerHTML = `
     <div class="msg-header">
-      ${NEXUS_ICON}
-      <span class="msg-label">Nexus</span>
+      ${ATLAS_ICON}
+      <span class="msg-label">Atlas</span>
     </div>
     <details class="steps-thread" open>
       <summary class="steps-summary">
@@ -266,18 +246,6 @@ input.addEventListener('keydown', e => {
 
 window.addEventListener('message', e => {
   const msg = e.data;
-  if (msg.type === 'keyResult') {
-    if (msg.valid) {
-      loginScreen.classList.add('hidden');
-      input.focus();
-    } else {
-      keyError.textContent = 'Incorrect app key.';
-      keySubmit.disabled = false;
-      keySubmit.textContent = 'Unlock';
-      keyInput.select();
-    }
-    return;
-  }
   if (msg.type === 'activityUpdate') {
     const stepsList = document.querySelector('#thinking .steps-list');
     if (stepsList) {
