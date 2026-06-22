@@ -34,4 +34,4 @@ Atlas Code requires Python 3.8 or higher to be installed on your machine. Python
 
 ## Contact
 
-If you have questions about this policy, open an issue at https://github.com/dhakshna-moorthi/nexus-code.
+If you have questions about this policy, open an issue at https://github.com/dhakshna-moorthi/atlas-code.
