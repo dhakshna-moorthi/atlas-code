@@ -150,7 +150,30 @@ function addPill(filename) {
   contextBar.appendChild(pill);
 }
 
-function appendMessage(role, text, files = []) {
+// Re-wraps '@file' tokens that were real mention chips back into styled spans
+// when rendering the sent message into the chat log (plain text alone loses
+// the chip styling, since input.textContent has no markup left in it).
+function formatUserMessage(text, mentionFiles) {
+  if (!mentionFiles || !mentionFiles.length) return escHtml(text);
+  const fileSet = new Set(mentionFiles);
+  const re = /(^|\s)@(\S+)/g;
+  let html = '';
+  let last = 0;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const boundary = m[1];
+    const rawToken = m[2];
+    if (!fileSet.has(rawToken)) continue; // chips are inserted as exactly '@'+file, so an exact match suffices
+    const atPos = m.index + boundary.length;
+    html += escHtml(text.slice(last, atPos));
+    html += `<span class="mention-token">@${escHtml(rawToken)}</span>`;
+    last = atPos + 1 + rawToken.length;
+  }
+  html += escHtml(text.slice(last));
+  return html;
+}
+
+function appendMessage(role, text, files = [], mentionFiles = []) {
   removeEmpty();
   const msg = document.createElement('div');
   msg.className = 'msg ' + role;
@@ -160,7 +183,7 @@ function appendMessage(role, text, files = []) {
     if (files.length > 0) {
       html += `<div class="context-pills">${files.map(f => `<div class="pill">${escHtml(f)}</div>`).join('')}</div>`;
     }
-    html += `<div class="msg-body">${escHtml(text)}</div>`;
+    html += `<div class="msg-body">${formatUserMessage(text, mentionFiles)}</div>`;
     msg.innerHTML = html;
   } else {
     msg.innerHTML = `
@@ -216,7 +239,7 @@ function send() {
   const allFiles = [...new Set([...pillFiles, ...mentionFiles])];
   // inline @mentions are real chip elements in the input already, so only
   // externally-attached files get a pill in the chat log — no duplicate tagging
-  appendMessage('user', text, pillFiles);
+  appendMessage('user', text, pillFiles, mentionFiles);
   input.innerHTML = '';
   attachedFiles = [];
   contextBar.innerHTML = '';

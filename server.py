@@ -436,6 +436,15 @@ def _serialize_message(m):
 
 
 # ── endpoints ──
+# Zero-cost liveness check for uptime pingers (UptimeRobot, Render's own health
+# check, etc.) — does no OpenAI call, just confirms the process is up.
+# Supports HEAD (no response body needed for a liveness ping) and GET (so it's
+# also checkable from a browser or curl without -I).
+@app.api_route("/health", methods=["GET", "HEAD"])
+def health():
+    return {"status": "ok"}
+
+
 @app.post("/chat")
 def chat(body: ChatRequest):
     try:
