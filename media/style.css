@@ -442,6 +442,10 @@ details[open] > .steps-summary .steps-chevron {
   position: relative;
 }
 
+/* contenteditable — a plain textarea can't style a substring (the @mention)
+   differently from the rest, so the input itself is a rich-text div and the
+   mention becomes a real, atomic chip element the browser's own cursor logic
+   understands (no risk of the visible text drifting from the caret) */
 #input {
   display: block;
   width: 100%;
@@ -452,18 +456,31 @@ details[open] > .steps-summary .steps-chevron {
   padding: 7px 42px 7px 10px;
   font-size: 13px;
   font-family: inherit;
-  resize: none;
   outline: none;
   min-height: 40px;
   max-height: 520px;
   line-height: 1.5;
   transition: border-color 0.15s;
-  overflow-y: hidden;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  cursor: text;
 }
 
 #input:focus { border-color: var(--accent); }
-#input::placeholder { color: var(--text-muted); }
-#input:disabled { opacity: 0.4; cursor: not-allowed; }
+#input:empty::before { content: attr(data-placeholder); color: var(--text-muted); pointer-events: none; }
+#input[contenteditable="false"] { opacity: 0.4; cursor: not-allowed; }
+
+/* @mention chip — same visual language as rendered markdown inline code */
+.mention-token {
+  font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+  font-size: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: #b5a4f5;
+}
 
 #send-btn {
   position: absolute;
@@ -499,4 +516,66 @@ details[open] > .steps-summary .steps-chevron {
 #hint {
   font-size: 10px;
   color: var(--text-muted);
+}
+
+/* ── @ file mention dropdown ── */
+#file-dropdown {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  z-index: 10;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+}
+
+#file-dropdown::-webkit-scrollbar { width: 3px; }
+#file-dropdown::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 4px; }
+
+.file-option {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 6px 10px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.file-option.selected,
+.file-option:hover {
+  background: var(--accent-dim);
+}
+
+.file-option .file-name {
+  font-size: 12px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.file-option.selected .file-name { color: var(--accent); }
+
+.file-option .file-dir {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── error message in chat ── */
+.error-note {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #e0a0a0;
+  background: rgba(224, 100, 100, 0.07);
+  border: 1px solid rgba(224, 100, 100, 0.22);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }

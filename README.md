@@ -24,7 +24,7 @@ A coding agent for VS Code powered by GPT-5.4-Nano. Read, write, debug, and refa
 
 ## Usage
 
-1. Install the extension from VS Code — Atlas Code Agent
+1. Install the extension from VS Code — Atlas Code
 2. Open the Atlas Code panel from the activity bar
 3. Open a folder in VS Code
 4. Start asking Atlas to help with your code
